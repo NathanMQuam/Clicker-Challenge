@@ -1,0 +1,14 @@
+// NOTE - Requirements
+
+TODO: User can click on an image to generate a resource
+TODO: Users have an up-to-date count of their resources
+TODO: Users have at least 4 upgrades to purchase
+TODO: Users can see how many of each resource they have and the amount of modification that resource provides
+TODO: At least 1 click upgrade and 1 automatic upgrade
+TODO: Automatic upgrades are applied at least every 3 seconds, and the screen is updated to reflect this change
+TODO: Users cannot purchase an upgrade if they do not have the resources
+TODO: Upgrades have different modifier values
+TODO: When a user buys an upgrade, the price of the upgrade goes up
+
+Figma Wireframe:
+https://www.figma.com/file/721dsmE0p3e5IN3HoRPwav/Clicker-Challenge?node-id=0%3A1
