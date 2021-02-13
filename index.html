@@ -20,11 +20,17 @@
       <div class="row game-row d-flex justify-content-between">
          <div class="col-4 side-pane-container">
             <div class="side-pane d-flex flex-column">
-               <div id="click-upgrade-store">
-                  test
+               <div>
+                  Click Upgrades
+                  <div id="click-upgrade-store" class="v-scroll">
+                     <button type="button" class="btn btn-secondary w-25" data-toggle="tooltip" data-placement="top" title="+1 Watt per Click">
+                        <img class="img img-fluid" src="icons/upgrade.png" alt="">
+                     </button>
+                  </div>
                </div>
-               <div id="auto-upgrade-store">
-                  test2
+               <div class="v-scroll">
+                  Auto Upgrades
+                  <div id="auto-upgrade-store"></div>
                </div>
             </div>
          </div>
@@ -33,8 +39,15 @@
          </div>
          <div class="col-4 side-pane-container">
             <div class="side-pane">
-               <div id="stats">test 3</div>
-               <div id="auto-clicker-store">test4</div>
+               <div id="stats"></div>
+               <div>
+                  Auto Store
+                  <div id="auto-clicker-store" class="v-scroll">
+                     <button type="button" class="btn btn-secondary w-25" data-toggle="tooltip" data-placement="top" title="Steam Engine">
+                        <img class="img img-fluid" src="icons/upgrade.png" alt="">
+                     </button>
+                  </div>
+               </div>
             </div>
          </div>
       </div>
