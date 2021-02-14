@@ -1,5 +1,6 @@
 let watts = 50
 let wattsPerSec = 0
+// TODO: Replace clickModifiers with the clickInventory
 let clickModifiers = {
    plusOne: 0,
    doubles: 0
@@ -24,6 +25,7 @@ let autoInventory = [
    }, {
       clicker: gasPowerPlant,
       num: 0,
+      upgrades: []
    }
 ]
 
@@ -33,7 +35,7 @@ const ACStoreElem = document.getElementById( "auto-clicker-store" )
 const AUStoreElem = document.getElementById( "auto-upgrade-store" )
 const CUStoreElem = document.getElementById( "click-upgrade-store" )
 
-
+// TODO: Create a function that dynamically draws the upgrades to the DOM
 
 function clickAction () {
    let doubles = clickModifiers.doubles
@@ -92,12 +94,13 @@ function calcWattsRate () {
 
       //console.log( thisItem );
       //console.log( produced, thisItem.num )
-      for ( let j = 0; j < thisItem.upgrades.length; j++ ) {
-         const upgradeIsOwned = thisItem.upgrades[j]
+      if ( thisItem.num > 0 )
+         for ( let j = 0; j < thisItem.upgrades.length; j++ ) {
+            const upgradeIsOwned = thisItem.upgrades[j]
 
-         if ( upgradeIsOwned )
-            produced += thisClicker.upgrades[j].modifier
-      }
+            if ( upgradeIsOwned )
+               produced += thisClicker.upgrades[j].modifier
+         }
       //console.log( "Total produced by this item:", produced )
       //console.log( "Total produced per second:", produced * thisItem.num )
 
