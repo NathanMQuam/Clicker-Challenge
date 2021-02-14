@@ -10,7 +10,7 @@ const siPrefix = {
 
 // NOTE Auto-Clicker Upgrades
 // #region
- 
+
 // #region Fossil Fuels
 
 const steamEngine = {
@@ -47,7 +47,7 @@ const coalTrain = {
          description: "Increase the efficiency of your locomotives.",
          modifier: 5,
          icon: ""
-      },{
+      }, {
          name: "Diesel Engines",
          price: 25000,
          description: "No need to carry water around anymore, drastically increase weight capacity.",
@@ -65,23 +65,27 @@ const gasPowerPlant = {
 }
 // #endregion
 // #endregion
+const autoClickersList = [steamEngine, coalTrain, gasPowerPlant]
+
 
 
 // NOTE Manual Click Upgrades
 // #region
+
 const plusOneClick = {
-   name: "+1 W/Click",
+   name: "plusOneClick",
+   description: "+1 W/Click",
    price: 50,
-   modifier: 1,
    icon: ""
 }
 
 const doubleClickValue = {
-   name: "*2 W/Click",
+   name: "doubleClickValue",
+   description: "*2 W/Click",
    price: 500,
-   modifier: 1,
    icon: ""
 }
 
 
 // #endregion
+const clickUpgradesList = [plusOneClick, doubleClickValue]

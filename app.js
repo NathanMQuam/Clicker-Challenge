@@ -1,8 +1,12 @@
 let watts = 0
+let wattsPerSec
 let clickModifiers = {
    plusOne: 0,
    doubles: 0
 }
+// let clickInventory = [
+//    { clicker: plusOneClick, count: 0 }
+// ]
 
 let autoInventory = [
    {
@@ -12,10 +16,13 @@ let autoInventory = [
    }
 ]
 
+const wattsCountElem = document.getElementById( "wattsCount" )
 const statsElem = document.getElementById( "stats" )
 const ACStoreElem = document.getElementById( "auto-clicker-store" )
 const AUStoreElem = document.getElementById( "auto-upgrade-store" )
 const CUStoreElem = document.getElementById( "click-upgrade-store" )
+
+
 
 function clickAction () {
    let doubles = clickModifiers.doubles
@@ -26,8 +33,16 @@ function clickAction () {
    draw()
 }
 
-function purchase ( upgrade ) {
-
+function purchase ( type, upgrade ) {
+   //debugger
+   //upgrade = clickUpgradesList.find( upg => upg.name == upgrade )
+   if ( watts >= upgrade.price ) {
+      watts -= upgrade.price
+      // NOTE: Couldn't get this method to work:
+      //let item = clickInventory.find( item => item.clicker == upgrade )
+      //item.count++
+   }
+   //console.log( clickInventory );
 }
 
 
@@ -36,7 +51,7 @@ function purchase ( upgrade ) {
 function autoClick () {
    //console.log( "Auto Interval!" );
    //debugger
-   let wattsPerSec = 0;
+   wattsPerSec = 0;
    for ( let i = 0; i < autoInventory.length; i++ ) {
       const thisItem = autoInventory[i]
       const thisClicker = thisItem.clicker
@@ -63,14 +78,18 @@ function autoClick () {
 
 
 
+
+
+
+
+
+
+
+
 function draw () {
-   statsElem.innerText = "Watts: " + watts
+   wattsCountElem.innerText = "Watts: " + watts
+   statsElem.innerText = "Watts per second: " + wattsPerSec
 }
-
-
-
-
-
 
 setInterval( autoClick, 1000 )
 draw()
