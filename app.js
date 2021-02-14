@@ -1,18 +1,29 @@
-let watts = 0
-let wattsPerSec
+let watts = 50
+let wattsPerSec = 0
 let clickModifiers = {
    plusOne: 0,
    doubles: 0
 }
-// let clickInventory = [
-//    { clicker: plusOneClick, count: 0 }
-// ]
+let clickInventory = [
+   {
+      clicker: plusOneClick, num: 0
+   }, {
+      clicker: doubleClickValue, num: 0
+   }
+]
 
 let autoInventory = [
    {
       clicker: steamEngine,
-      num: 2,
-      upgrades: [true, false]
+      num: 0,
+      upgrades: [false, false]
+   }, {
+      clicker: coalTrain,
+      num: 0,
+      upgrades: [false, false]
+   }, {
+      clicker: gasPowerPlant,
+      num: 0,
    }
 ]
 
@@ -33,25 +44,46 @@ function clickAction () {
    draw()
 }
 
-function purchase ( type, upgrade ) {
+function purchase ( upgrade, type ) {
    //debugger
-   //upgrade = clickUpgradesList.find( upg => upg.name == upgrade )
-   if ( watts >= upgrade.price ) {
-      watts -= upgrade.price
-      // NOTE: Couldn't get this method to work:
-      //let item = clickInventory.find( item => item.clicker == upgrade )
-      //item.count++
+   console.log( upgrade, type );
+   if ( upgrade ) {
+      if ( type == "click" ) {
+         let selected = clickInventory.find( upg => upg.clicker == upgrade )
+         let price = selected.clicker.price
+         if ( watts >= price ) {
+            watts -= price
+            selected.num++
+            selected.clicker.price *= 1.1
+         }
+      } else {
+         let selected = autoInventory.find( upg => upg.clicker == upgrade )
+         // TODO: If the upgrade is not already in the inventory, find it and add it
+         let price = selected.clicker.price
+         if ( watts >= price ) {
+            watts -= price
+            selected.num++
+            selected.clicker.price *= 1.1
+         }
+      }
+   } else {
+      console.log( "Could not find the auto clicker:", upgrade );
    }
-   //console.log( clickInventory );
+   calcWattsRate()
 }
-
-
 
 // Gathers all the auto-clickers and determines how many Watts to produce every second
 function autoClick () {
    //console.log( "Auto Interval!" );
    //debugger
-   wattsPerSec = 0;
+   calcWattsRate()
+
+   watts += wattsPerSec
+   draw()
+}
+
+function calcWattsRate () {
+   wattsPerSec = 0
    for ( let i = 0; i < autoInventory.length; i++ ) {
       const thisItem = autoInventory[i]
       const thisClicker = thisItem.clicker
@@ -71,8 +103,6 @@ function autoClick () {
 
       wattsPerSec += produced * thisItem.num
    }
-
-   watts += wattsPerSec
    draw()
 }
 
@@ -87,9 +117,9 @@ function autoClick () {
 
 
 function draw () {
-   wattsCountElem.innerText = "Watts: " + watts
+   wattsCountElem.innerText = watts + " Watts"
    statsElem.innerText = "Watts per second: " + wattsPerSec
 }
 
-setInterval( autoClick, 1000 )
 draw()
+setInterval( autoClick, 1000 )

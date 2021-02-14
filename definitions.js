@@ -15,13 +15,13 @@ const siPrefix = {
 
 const steamEngine = {
    name: "Steam Engine",
-   price: 100,
+   price: 50,
    production: 1,
    icon: "",
    upgrades: [
       {
          name: "Safety Valve",
-         price: 1000,
+         price: 500,
          description: "Prevents boilers from getting over-pressurized and exploding.",
          modifier: 1,
          icon: ""
