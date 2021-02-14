@@ -5,29 +5,29 @@ let clickModifiers = {
    plusOne: 0,
    doubles: 0
 }
-let clickInventory = [
-   {
-      clicker: plusOneClick, num: 0
-   }, {
-      clicker: doubleClickValue, num: 0
-   }
-]
+// let clickInventory = [
+//    {
+//       clicker: plusOneClick, num: 0
+//    }, {
+//       clicker: doubleClickValue, num: 0
+//    }
+// ]
 
-let autoInventory = [
-   {
-      clicker: steamEngine,
-      num: 0,
-      upgrades: [false, false]
-   }, {
-      clicker: coalTrain,
-      num: 0,
-      upgrades: [false, false]
-   }, {
-      clicker: gasPowerPlant,
-      num: 0,
-      upgrades: []
-   }
-]
+// let autoInventory = [
+//    {
+//       clicker: steamEngine,
+//       num: 0,
+//       upgrades: [false, false]
+//    }, {
+//       clicker: coalTrain,
+//       num: 0,
+//       upgrades: [false, false]
+//    }, {
+//       clicker: gasPowerPlant,
+//       num: 0,
+//       upgrades: []
+//    }
+// ]
 
 const wattsCountElem = document.getElementById( "wattsCount" )
 const statsElem = document.getElementById( "stats" )
@@ -46,10 +46,20 @@ function clickAction () {
    draw()
 }
 
-function purchase ( upgrade, type ) {
+function purchase ( clicker, upgrade ) {
    //debugger
-   console.log( upgrade, type );
-   if ( upgrade ) {
+   if ( clicker ) {
+      let selected = inventory.find( upg => upg.name == clicker )
+      let price = selected.price
+
+      console.log( selected );
+
+      if ( watts >= price ) {
+         watts -= price
+         selected.owned++
+         selected.price = Math.ceil( selected.price * 1.1 )
+      }
+      /*
       if ( type == "click" ) {
          let selected = clickInventory.find( upg => upg.clicker == upgrade )
          let price = selected.clicker.price
@@ -60,7 +70,6 @@ function purchase ( upgrade, type ) {
          }
       } else {
          let selected = autoInventory.find( upg => upg.clicker == upgrade )
-         // TODO: If the upgrade is not already in the inventory, find it and add it
          let price = selected.clicker.price
          if ( watts >= price ) {
             watts -= price
@@ -68,6 +77,7 @@ function purchase ( upgrade, type ) {
             selected.clicker.price *= 1.1
          }
       }
+      */
    } else {
       console.log( "Could not find the auto clicker:", upgrade );
    }
@@ -86,27 +96,38 @@ function autoClick () {
 
 function calcWattsRate () {
    wattsPerSec = 0
-   for ( let i = 0; i < autoInventory.length; i++ ) {
-      const thisItem = autoInventory[i]
-      const thisClicker = thisItem.clicker
+   inventory.forEach( item => {
+      let produced = item.production
 
-      let produced = thisClicker.production
-
-      //console.log( thisItem );
-      //console.log( produced, thisItem.num )
-      if ( thisItem.num > 0 )
-         for ( let j = 0; j < thisItem.upgrades.length; j++ ) {
-            const upgradeIsOwned = thisItem.upgrades[j]
-
-            if ( upgradeIsOwned )
-               produced += thisClicker.upgrades[j].modifier
+      if ( item.type == "auto" ) {
+         for ( let i = 0; i < item.upgrades.length; i++ ) {
+            item.upgrades[i].owned ? produced += item.upgrades[i].modifier : undefined
          }
-      //console.log( "Total produced by this item:", produced )
-      //console.log( "Total produced per second:", produced * thisItem.num )
 
-      wattsPerSec += produced * thisItem.num
-   }
+         wattsPerSec += produced *= item.owned
+      }
+   } )
    draw()
+   // for ( let i = 0; i < autoInventory.length; i++ ) {
+   //    const thisItem = autoInventory[i]
+   //    const thisClicker = thisItem.clicker
+
+   //    let produced = thisClicker.production
+
+   //    //console.log( thisItem );
+   //    //console.log( produced, thisItem.num )
+   //    if ( thisItem.num > 0 )
+   //       for ( let j = 0; j < thisItem.upgrades.length; j++ ) {
+   //          const upgradeIsOwned = thisItem.upgrades[j]
+
+   //          if ( upgradeIsOwned )
+   //             produced += thisClicker.upgrades[j].modifier
+   //       }
+   //    //console.log( "Total produced by this item:", produced )
+   //    //console.log( "Total produced per second:", produced * thisItem.num )
+
+   //    wattsPerSec += produced * thisItem.num
+   // }
 }
 
 

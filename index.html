@@ -22,10 +22,8 @@
                <div>
                   Click Upgrades
                   <div id="click-upgrade-store" class="v-scroll">
-                     <button type="button" class="btn btn-secondary w-25" data-toggle="tooltip" data-placement="top" title="+1 Watt per Click" onclick="purchase(plusOneClick, 'click')">
+                     <button type="button" class="btn btn-secondary w-25" data-toggle="tooltip" data-placement="top" title="+1 Watt per Click" onclick="purchase('plusOneClick')">
                         <img class="img img-fluid" src="icons/upgrade.png">
-                        <p class="cost">Cost: </p>
-                        <p class="owned">Owned: </p>
                      </button>
                   </div>
                </div>
@@ -45,8 +43,15 @@
                <div>
                   Auto Store
                   <div id="auto-clicker-store" class="v-scroll">
-                     <button type="button" class="btn btn-secondary w-25" data-toggle="tooltip" data-placement="top" title="Steam Engine" onclick='purchase(steamEngine)'>
-                        <img class="img img-fluid" src="icons/upgrade.png">
+                     <button type="button" class="btn btn-primary d-flex justify-content-between" data-toggle="tooltip" data-placement="top" title="Steam Engine" onclick="purchase('Steam Engine')">
+                        <div class="w-25 position-relative">
+                           <img class="img img-fluid" src="icons/upgrade.png">
+                           <div class="position-absolute clicker-count">0</div>
+                        </div>
+                        <div class="stats">
+                           <p class="m-0">Steam Engine</p>
+                           <p class="m-0">Cost: 50</p>
+                        </div>
                      </button>
                   </div>
                </div>

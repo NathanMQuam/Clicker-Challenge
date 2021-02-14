@@ -39,6 +39,12 @@ main {
    overflow-y: auto;
 }
 
+.clicker-count {
+   top: 0;
+   right: 0;
+   filter: drop-shadow(1px 1px 1.5px hsla(240, 33%, 10%, 0.85))
+}
+
 #game-view img {
    cursor: pointer;
    /* width: 33vw; */
