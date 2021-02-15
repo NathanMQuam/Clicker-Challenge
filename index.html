@@ -17,7 +17,7 @@
    <main class="container-fluid text-center text-light">
 
       <div class="row game-row d-flex justify-content-between">
-         <div class="col-4 side-pane-container">
+         <!-- <div class="col-4 side-pane-container">
             <div class="side-pane d-flex flex-column">
                <div>
                   Click Upgrades
@@ -32,18 +32,28 @@
                   <div id="auto-upgrade-store"></div>
                </div>
             </div>
-         </div>
-         <div class="col-4" id="game-view" onclick="clickAction()">
+         </div> -->
+         <div class="col-5" id="game-view" onclick="clickAction()">
             <h3 id="wattsCount">Watts: 0</h3>
             <img class="img img-fluid" src="moon.png" id="moon">
          </div>
-         <div class="col-4 side-pane-container">
-            <div class="side-pane">
+         <div class="col side-pane-container">
+            <div class="side-pane v-scroll">
                <div id="stats"></div>
-               <div>
-                  Auto Store
-                  <div id="auto-clicker-store" class="v-scroll">
-                     <button type="button" class="btn btn-primary d-flex justify-content-between" data-toggle="tooltip" data-placement="top" title="Steam Engine" onclick="purchase('Steam Engine')">
+               <p id="click-value-total">1 Watt per click</p>
+               Click Upgrades
+               <div id="click-upgrade-store" class="v-scroll">
+                  <button type="button" class="btn btn-primary w-25" data-toggle="tooltip" data-placement="top" title="+1 Watt per Click" onclick="purchase('plusOneClick')">
+                     <div class="position-relative">
+                        <img class="img img-fluid" src="icons/upgrade.png">
+                        <div class="position-absolute clicker-count">0</div>
+                     </div>
+                  </button>
+               </div>
+               Auto Store
+               <div id="auto-clicker-store" class="v-scroll">
+                  <div class="p-2">
+                     <button type="button" class="btn btn-primary d-flex justify-content-between" onclick="purchase('Steam Engine')">
                         <div class="w-25 position-relative">
                            <img class="img img-fluid" src="icons/upgrade.png">
                            <div class="position-absolute clicker-count">0</div>
@@ -51,8 +61,12 @@
                         <div class="stats">
                            <p class="m-0">Steam Engine</p>
                            <p class="m-0">Cost: 50</p>
+                           <p>Produces 1 Watt per second</p>
                         </div>
                      </button>
+                     <p>
+                     <div>Upgrades</div>
+                     </p>
                   </div>
                </div>
             </div>

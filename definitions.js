@@ -13,14 +13,14 @@ const inventory = [
       name: "plusOneClick",
       owned: 0,
       type: "click",
-      description: "+1 W/Click",
+      description: "+1 Watt per Click",
       price: 50,
       icon: ""
    }, {
       name: "doubleClickValue",
       owned: 0,
       type: "click",
-      description: "*2 W/Click",
+      description: "Double the Watts received per Click",
       price: 500,
       icon: ""
    }, {
@@ -81,7 +81,7 @@ const inventory = [
       upgrades: []
    }
 ]
-
+/*
 // NOTE Auto-Clicker Upgrades
 // #region
 
@@ -163,3 +163,4 @@ const doubleClickValue = {
 
 // #endregion
 const clickUpgradesList = [plusOneClick, doubleClickValue]
+*/

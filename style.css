@@ -23,6 +23,10 @@ main {
    margin: 1rem;
 }
 
+.side-pane-container {
+   max-height: 100vh;
+}
+
 .game-row {
    /* margin: 0; */
    height: 100vh;
@@ -36,12 +40,17 @@ main {
 
 .v-scroll {
    overflow-x: hidden;
-   overflow-y: auto;
+   overflow-y: auto !important;
+   max-height: 100%;
+}
+
+.click-upgrades {
+   width: 49% !important;
 }
 
 .clicker-count {
    top: 0;
-   right: 0;
+   left: 0;
    filter: drop-shadow(1px 1px 1.5px hsla(240, 33%, 10%, 0.85))
 }
 

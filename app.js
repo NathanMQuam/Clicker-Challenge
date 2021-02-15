@@ -1,49 +1,26 @@
 let watts = 50
 let wattsPerSec = 0
-// TODO: Replace clickModifiers with the clickInventory
-let clickModifiers = {
-   plusOne: 0,
-   doubles: 0
-}
-// let clickInventory = [
-//    {
-//       clicker: plusOneClick, num: 0
-//    }, {
-//       clicker: doubleClickValue, num: 0
-//    }
-// ]
-
-// let autoInventory = [
-//    {
-//       clicker: steamEngine,
-//       num: 0,
-//       upgrades: [false, false]
-//    }, {
-//       clicker: coalTrain,
-//       num: 0,
-//       upgrades: [false, false]
-//    }, {
-//       clicker: gasPowerPlant,
-//       num: 0,
-//       upgrades: []
-//    }
-// ]
 
 const wattsCountElem = document.getElementById( "wattsCount" )
 const statsElem = document.getElementById( "stats" )
+const clickTotalsElem = document.getElementById( "click-value-total" )
 const ACStoreElem = document.getElementById( "auto-clicker-store" )
-const AUStoreElem = document.getElementById( "auto-upgrade-store" )
 const CUStoreElem = document.getElementById( "click-upgrade-store" )
 
-// TODO: Create a function that dynamically draws the upgrades to the DOM
-
 function clickAction () {
-   let doubles = clickModifiers.doubles
-   let plusOnes = clickModifiers.plusOne
+   let plusOnes = inventory.find( upg => upg.name == "plusOneClick" ).owned
+   let doubles = inventory.find( upg => upg.name == "doubleClickValue" ).owned
 
-   watts += ( 1 + plusOnes ) * ( doubles == 0 ? 1 : ( 2 * clickModifiers.doubles ) )
+   watts += getClickValue()
 
    draw()
+}
+
+function getClickValue () {
+   let plusOnes = inventory.find( upg => upg.name == "plusOneClick" ).owned
+   let doubles = inventory.find( upg => upg.name == "doubleClickValue" ).owned
+
+   return ( 1 + plusOnes ) * Math.max( 1, ( 2 * doubles ) )
 }
 
 function purchase ( clicker, upgrade ) {
@@ -58,26 +35,8 @@ function purchase ( clicker, upgrade ) {
          watts -= price
          selected.owned++
          selected.price = Math.ceil( selected.price * 1.1 )
+         drawClickUpgrades()
       }
-      /*
-      if ( type == "click" ) {
-         let selected = clickInventory.find( upg => upg.clicker == upgrade )
-         let price = selected.clicker.price
-         if ( watts >= price ) {
-            watts -= price
-            selected.num++
-            selected.clicker.price *= 1.1
-         }
-      } else {
-         let selected = autoInventory.find( upg => upg.clicker == upgrade )
-         let price = selected.clicker.price
-         if ( watts >= price ) {
-            watts -= price
-            selected.num++
-            selected.clicker.price *= 1.1
-         }
-      }
-      */
    } else {
       console.log( "Could not find the auto clicker:", upgrade );
    }
@@ -86,8 +45,6 @@ function purchase ( clicker, upgrade ) {
 
 // Gathers all the auto-clickers and determines how many Watts to produce every second
 function autoClick () {
-   //console.log( "Auto Interval!" );
-   //debugger
    calcWattsRate()
 
    watts += wattsPerSec
@@ -108,29 +65,48 @@ function calcWattsRate () {
       }
    } )
    draw()
-   // for ( let i = 0; i < autoInventory.length; i++ ) {
-   //    const thisItem = autoInventory[i]
-   //    const thisClicker = thisItem.clicker
-
-   //    let produced = thisClicker.production
-
-   //    //console.log( thisItem );
-   //    //console.log( produced, thisItem.num )
-   //    if ( thisItem.num > 0 )
-   //       for ( let j = 0; j < thisItem.upgrades.length; j++ ) {
-   //          const upgradeIsOwned = thisItem.upgrades[j]
-
-   //          if ( upgradeIsOwned )
-   //             produced += thisClicker.upgrades[j].modifier
-   //       }
-   //    //console.log( "Total produced by this item:", produced )
-   //    //console.log( "Total produced per second:", produced * thisItem.num )
-
-   //    wattsPerSec += produced * thisItem.num
-   // }
 }
 
+function drawClickUpgrades () {
+   let clickUpgrades = ""
+   let autoUpgrades = ""
+   inventory.forEach( item => {
+      if ( item.type == "click" ) {
+         clickUpgrades += /*html*/`
+         <button type="button" class="btn btn-primary d-flex m-0 justify-content-between align-items-center" onclick="purchase('${item.name}')">
+            <div class="position-relative w-25">
+               <img class="img img-fluid" src="icons/upgrade.png">
+               <div class="position-absolute clicker-count">${item.owned}</div>
+            </div>
+            <div class="text-right">
+               <p class="m-0">${item.name}</p>
+               <p class="m-0">Cost: ${item.price}</p>
+               <p>${item.description}</p>
+            </div>
+         </button>`
+      } else if ( item.type == "auto" ) {
+         autoUpgrades += /*html*/`
+         <div class="p-2 bg-primary">
+            <button type="button" class="btn btn-secondary d-flex justify-content-between align-items-center" onclick="purchase('${item.name}')">
+               <div class="w-25 position-relative">
+                  <img class="img img-fluid" src="icons/upgrade.png">
+                  <div class="position-absolute clicker-count">${item.owned}</div>
+               </div>
+               <div class="stats">
+                  <p class="m-0">${item.name}</p>
+                  <p class="m-0">Cost: ${item.price}</p>
+                  <p>${item.production} Watt${item.production == 1 ? '' : 's'} per second</p>
+               </div>
+            </button>
+         </div>`
+      }
+   } )
 
+   CUStoreElem.innerHTML = ''
+   CUStoreElem.innerHTML = clickUpgrades
+   ACStoreElem.innerHTML = ''
+   ACStoreElem.innerHTML = autoUpgrades
+}
 
 
 
@@ -143,7 +119,11 @@ function calcWattsRate () {
 function draw () {
    wattsCountElem.innerText = watts + " Watts"
    statsElem.innerText = "Watts per second: " + wattsPerSec
+   clickTotalsElem.innerText = "Watts per click: " + getClickValue()
+
+
 }
 
 draw()
+drawClickUpgrades()
 setInterval( autoClick, 1000 )
